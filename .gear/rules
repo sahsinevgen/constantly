@@ -1,2 +1,3 @@
-tar: @name@
-
+spec: .gear/constantly.spec
+tar: @version@:.
+copy?: .gear/*.patch
