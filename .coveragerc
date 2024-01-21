@@ -1,0 +1,6 @@
+# vim: filetype=dosini:
+[run]
+branch = True
+source = constantly
+omit =
+    constantly/_version.py
