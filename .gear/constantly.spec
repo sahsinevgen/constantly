@@ -3,7 +3,7 @@
 %define oname constantly
 Name: python3-module-%oname
 Version: 15.1.0
-Release: alt6
+Release: alt7
 
 Summary: Symbolic constants in Python
 
@@ -14,6 +14,7 @@ BuildArch: noarch
 
 # https://github.com/twisted/constantly.git
 Source: %name-%version.tar
+Patch1: configparser-alt-fix.patch
 
 BuildRequires(pre): rpm-build-python3
 BuildRequires: python3(json)
@@ -25,6 +26,7 @@ Originally ``twisted.python.constants`` from the `Twisted <https://twistedmatrix
 
 %prep
 %setup
+%patch1 -p1
 
 # fix version info
 sed -i \
@@ -45,6 +47,9 @@ py.test3
 %python3_sitelibdir/%oname-%version-py*.egg-info
 
 %changelog
+* Sun Jan 21 2024 Alexandr Sinelnikov <sasha@altlinux.org> 15.1.0-alt7
+- NMU: fixed FTBFS (configparser deprecation).
+
 * Wed Sep 08 2021 Grigory Ustinov <grenka@altlinux.org> 15.1.0-alt6
 - Build without python2 support.
 
