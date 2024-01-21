@@ -1,3 +1,4 @@
 spec: .gear/constantly.spec
 tar: @version@:.
+copy: .gear/pyproject_deps.json
 copy?: .gear/*.patch

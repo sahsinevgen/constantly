@@ -1,0 +1,30 @@
+{
+  "sources": {
+    "check": {
+      "deps": [
+        "twisted"
+      ],
+      "srcargs": [
+        "tox.ini",
+        "testenv"
+      ],
+      "srctype": "tox"
+    },
+    "metadata": {
+      "srctype": "metadata"
+    },
+    "pep517": {
+      "deps": [
+        "wheel"
+      ],
+      "srctype": "pep517"
+    },
+    "pep518": {
+      "deps": [
+        "setuptools>=68.2",
+        "versioneer[toml]==0.29"
+      ],
+      "srctype": "pep518"
+    }
+  }
+}

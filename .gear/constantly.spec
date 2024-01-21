@@ -2,8 +2,8 @@
 
 %define oname constantly
 Name: python3-module-%oname
-Version: 15.1.0
-Release: alt7
+Version: 23.10.4
+Release: alt1
 
 Summary: Symbolic constants in Python
 
@@ -14,10 +14,18 @@ BuildArch: noarch
 
 # https://github.com/twisted/constantly.git
 Source: %name-%version.tar
-Patch1: configparser-alt-fix.patch
+Source1: %pyproject_deps_config_name
 
-BuildRequires(pre): rpm-build-python3
-BuildRequires: python3(json)
+%py3_provides %oname
+
+%pyproject_runtimedeps_metadata
+BuildRequires(pre): rpm-build-pyproject
+%pyproject_builddeps_build
+
+%if_with check
+%pyproject_builddeps_metadata
+%pyproject_builddeps_check
+%endif
 
 %description
 A library that provides symbolic constant support.
@@ -26,7 +34,13 @@ Originally ``twisted.python.constants`` from the `Twisted <https://twistedmatrix
 
 %prep
 %setup
-%patch1 -p1
+
+%pyproject_deps_resync_build
+%pyproject_deps_resync_metadata
+
+%if_with check
+%pyproject_deps_resync_check_tox tox.ini testenv
+%endif
 
 # fix version info
 sed -i \
@@ -34,19 +48,22 @@ sed -i \
 	%oname/_version.py
 
 %build
-%python3_build
+%pyproject_build
 
 %install
-%python3_install
+%pyproject_install
 
 %check
-py.test3
+%tox_check_pyproject
 
 %files
-%python3_sitelibdir/%oname
-%python3_sitelibdir/%oname-%version-py*.egg-info
+%python3_sitelibdir_noarch/%oname
+%python3_sitelibdir_noarch/%{pyproject_distinfo %oname}/
 
 %changelog
+* Mon Jan 22 2024 Alexandr Sinelnikov <sasha@altlinux.org> 23.10.4-alt1
+- NMU: updated to latest release.
+
 * Sun Jan 21 2024 Alexandr Sinelnikov <sasha@altlinux.org> 15.1.0-alt7
 - NMU: fixed FTBFS (configparser deprecation).
 
